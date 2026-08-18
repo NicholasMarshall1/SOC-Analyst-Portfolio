@@ -20,8 +20,8 @@
 - The failed attempts targeted multiple usernames, including admin and LetsDefend.
 - A successful RDP logon (Event ID 4624, Logon Type 10) occurred shortly after the failed attempts from the same source IP.
 
-**Classification:** True Positive - Malicious  
-**Action Taken:** Recommended isolating WS-Prod-02, blocking the source IP 212.8.243.56, resetting the affected user credentials, and escalating the incident for further investigation.  
-**Time to Triage:** 34 minutes
+Classification: True Positive - Malicious  
+Action Taken: Recommended isolating WS-Prod-02, blocking the source IP 212.8.243.56, resetting the affected user credentials, and escalating the incident for further investigation.  
+Time to Triage: 34 minutes
 ----------------------------------------------------------------------------------------------------------------
 ## Alert #2
