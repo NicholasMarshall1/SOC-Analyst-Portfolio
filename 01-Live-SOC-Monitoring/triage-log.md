@@ -22,14 +22,15 @@
 
 Classification: True Positive - Malicious  
 Action Taken: Recommended isolating WS-Prod-02, blocking the source IP 212.8.243.56, resetting the affected user credentials, and escalating the incident for further investigation.  
+
 Time to Triage: 34 minutes
 
 ## Alert #2
 **Date:** 2025-08-15
 **Alert Title:** SOC343 - WinRAR Zero-Day Path Traversal Vulnerability
 **Severity:** Critical
-**Source:** Phishing email from an external sender
-**Target:** Stweart (172.16.17.183)
+**Source IP:** 172.16.17.183
+**Target:** Stweart (172.16.17.183) 
 
 **Hypothesis:** A phishing email that contained a malicious attachment was opened by the user (Stewart) and then exploited a WinRaR vulnerability to create malicious files on the endpoint. 
 
@@ -41,8 +42,30 @@ Time to Triage: 34 minutes
 - The msedge.dll was created in C:\Users\LetsDefend\AppData\Local\Temp.
 - The action was Allowed, which indicates that the suspiscious activity was not blocked.
 - The malicious msedge.dll artifact was located on the endpoint during the eradication phase.
+- Successful Phishing Attack - Phishing email from an external sender.
 
-Classification: True Positive - Malicious - Successful Phishing Attack
+Classification: True Positive - Malicious 
 Action Taken: Isolated the device and the infected endpoint was investigated for the malicious file msedge.dll. The file was found and deleted. 
+
 Time to Triage: 32 Minutes
 
+## Alert #3
+**Date:** 2025-07-22
+**Alert Title:** SOC342 - CVE-2025053770 SharePoint ToolShell Auth Bypass and RCE
+**Severity:** Critical
+**Source IP:** 107.191.58.76
+**Target:** SharePoint01 (172.16.20.17)
+
+**Hypothesis:** Attacker executed code on the server remotely using the known SharePoint vulnerability (CVE-2025-53770).
+
+**Evidence:**
+- An unathenticated HTTPS POST request was sent from an external IP (107.191.58.76) to SharePoint01 (107.191.58.76) on port 443.
+- The request targeted The request targeted '/_layouts/15/ToolPane.aspx' which is the SharePoint application page/path.
+- The HTTP response code was 200 which indicates that the request was succesfully processed.
+- cmd.exe executed commands that referenced a external payload from the IP 107.191.58.76.
+- The same external IP appeared in both the SharePoint request and subsequent payload-related activity. 
+
+Classification: True Positive - Malicious
+Action Taken: Escalated to Tier 2 for incident response, and need to isolate SharePoint01 and block the IP 107.191.58.76. The malicious payloads need to be removed to prevent more damage. Finally SharePoint needs to be mitigated and isolated until the proper security update comes out and the patch can be applied. 
+
+Time to Triage: 22 Minutes
