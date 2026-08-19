@@ -20,9 +20,9 @@
 - The failed attempts targeted multiple usernames, including admin and LetsDefend.
 - A successful RDP logon (Event ID 4624, Logon Type 10) occurred shortly after the failed attempts from the same source IP.
 
-Classification: True Positive - Malicious  
-Action Taken: Recommended isolating WS-Prod-02, blocking the source IP 212.8.243.56, resetting the affected user credentials, and escalating the incident for further investigation.  
+Classification: True Positive - Malicious
 
+Action Taken: Recommended isolating WS-Prod-02, blocking the source IP 212.8.243.56, resetting the affected user credentials, and escalating the incident for further investigation.  
 Time to Triage: 34 minutes
 
 ## Alert #2
@@ -45,8 +45,8 @@ Time to Triage: 34 minutes
 - Successful Phishing Attack - Phishing email from an external sender.
 
 Classification: True Positive - Malicious 
-Action Taken: Isolated the device and the infected endpoint was investigated for the malicious file msedge.dll. The file was found and deleted. 
 
+Action Taken: Isolated the device and the infected endpoint was investigated for the malicious file msedge.dll. The file was found and deleted. 
 Time to Triage: 32 Minutes
 
 ## Alert #3
@@ -66,6 +66,6 @@ Time to Triage: 32 Minutes
 - The same external IP appeared in both the SharePoint request and subsequent payload-related activity. 
 
 Classification: True Positive - Malicious
-Action Taken: Escalated to Tier 2 for incident response, and need to isolate SharePoint01 and block the IP 107.191.58.76. The malicious payloads need to be removed to prevent more damage. Finally SharePoint needs to be mitigated and isolated until the proper security update comes out and the patch can be applied. 
 
+Action Taken: Escalated to Tier 2 for incident response, and need to isolate SharePoint01 and block the IP 107.191.58.76. The malicious payloads need to be removed to prevent more damage. Finally SharePoint needs to be mitigated and isolated until the proper security update comes out and the patch can be applied. 
 Time to Triage: 22 Minutes
