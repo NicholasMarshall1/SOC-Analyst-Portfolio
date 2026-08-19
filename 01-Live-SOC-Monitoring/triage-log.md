@@ -100,7 +100,7 @@
 * The file hash associated with the alert was identified as malicious and classified as a trojan by external malware analysis tools.
 * The alert trigger stated that suspicious behavior associated with the malicious hash was identified and was consistent with exploitation of CVE-2024-49138.
 * Log Management showed traffic from the external IP 185.107.56.141 to the affected endpoint 172.16.17.207.
-* The malware was downloaded from a infected installer - //files-ld.s3.us-east-2.amazonaws.com/service-installer.zip.
+* The malware was downloaded from a infected installer https://files-ld.s3.us-east-2.amazonaws.com/service-installer.zip.
 * Log analysis confirmed that the malware-hosting/C2 infrastructure was accessed and the malicious archive was downloaded.
 * The malware was successfully executed on the endpoint.
 * No evidence was found that the activity was benign or part of an authorized test.
