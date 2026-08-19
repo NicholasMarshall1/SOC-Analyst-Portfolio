@@ -107,6 +107,6 @@
 
 **Classification:** True Positive - Malicious
 
-**Action Taken:** Recommended isolating Victor, removing the malicious `service-installer` files and related artifacts, blocking the malicious source IP and associated download infrastructure, reviewing the endpoint for persistence or additional compromise, and escalating the incident for further investigation.
+**Action Taken:** Isolating Victor immedietly was the first step, and then removing the malicious "service-installer" file. We then would need to block all access from the malicious source IP, and escalate this incident for further investigation if the issue persists. 
 
-**Time to Triage:** 36 Minutes
+**Time to Triage:** 24 Minutes
