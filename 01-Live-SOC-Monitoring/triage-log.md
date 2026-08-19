@@ -123,19 +123,19 @@
 
 **Evidence:**
 
-* Multiple failed RDP login attempts originated from the external IP 37.19.221.238 against Campbell (172.16.17.213) on port 3389.
-* The failed login attempts targeted multiple usernames, including test, guest, root, and LetsDefend.
-* A successful RDP logon (Event ID 4624, Logon Type 10) occurred from 37.19.221.238 after the failed login attempts.
-* Shortly after the successful RDP login, `cmd.exe` was created on the affected endpoint.
-* The parent process of `cmd.exe` was `explorer.exe`, which is consistent with command prompt activity from an interactive Windows session.
-* Event ID 4688 logs showed `cmd.exe` launching `HOSTNAME.EXE` with the `hostname` command.
-* Event ID 4688 logs also showed `cmd.exe` launching `net.exe` using the command `net time \\EC2AMAZ-ILGVOIN`.
-* The `net time` command was used to query system time information, indicating System Time Discovery activity.
-* The alert trigger reason identified a possible System Time Discovery attempt.
-* Post-login discovery activity occurred shortly after the successful RDP authentication, supporting that the brute-force attack resulted in unauthorized access.
+- Multiple failed RDP login attempts that came from the external IP 37.19.221.238 against user Campbell (172.16.17.213) on port 3389.
+- The failed login attempts were targeted towards multiple usernames, including test, guest, root, and LetsDefend.
+- A successful RDP logon (Event ID 4624, Logon Type 10) occurred after the failed login attempts.
+- After the successful RDP login, cmd.exe was created on the affected endpoint.
+- Event ID 4688 logs showed cmd.exe launching HOSTNAME.EXE with the hostname command.
+- Event ID 4688 logs also showed cmd.exe launching net.exe using the command net time \\EC2AMAZ-ILGVOIN.
+- The net time command was used to query system information, such as time, indicating a System Time Discovery activity.
+- The initial alert trigger was identified as a possible System Time Discovery attempt.
+- Post-login discovery activity occurred shortly after the successful RDP authentication, this supports that the brute-force attack resulted in unauthorized access to Campbells endpoint.
+- The source IP 37.19.221.238 was flagged by external malware analysis tools as malicious. 
 
 **Classification:** True Positive - Malicious
 
-**Action Taken:** Recommended isolating Campbell, blocking the source IP 37.19.221.238, resetting the affected user credentials, reviewing the endpoint for additional post-compromise activity, and escalating the incident for further investigation.
+**Action Taken:** Isolated Campbells endpoint, blocking the source IP 37.19.221.238, resetting the affected user credentials, reviewing the endpoint for additional post-compromise activity, and escalating the incident for further investigation.
 
-**Time to Triage:** [Enter your actual time]
+**Time to Triage:** 14 Minutes
