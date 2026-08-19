@@ -45,4 +45,4 @@ Time to Triage: 34 minutes
 Classification: True Positive - Malicious - Successful Phishing Attack
 Action Taken: Isolated the device and the infected endpoint was investigated for the malicious file msedge.dll. The file was found and deleted. 
 Time to Triage: 32 Minutes
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
