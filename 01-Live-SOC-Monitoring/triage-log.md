@@ -23,7 +23,7 @@
 Classification: True Positive - Malicious  
 Action Taken: Recommended isolating WS-Prod-02, blocking the source IP 212.8.243.56, resetting the affected user credentials, and escalating the incident for further investigation.  
 Time to Triage: 34 minutes
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 ## Alert #2
 **Date:** 2025-08-15
 **Alert Title:** SOC343 - WinRAR Zero-Day Path Traversal Vulnerability
