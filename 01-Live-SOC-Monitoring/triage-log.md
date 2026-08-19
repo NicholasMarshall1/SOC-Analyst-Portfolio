@@ -110,3 +110,32 @@
 **Action Taken:** Isolating Victor immedietly was the first step, and then removing the malicious "service-installer" file. We then would need to block all access from the malicious source IP, and escalate this incident for further investigation if the issue persists. 
 
 **Time to Triage:** 24 Minutes
+
+## Alert #5
+
+**Date:** 2024-06-10
+**Alert Title:** SOC291 - System Time Lookup Detected
+**Severity:** Low
+**Source IP:** 37.19.221.238
+**Target:** Campbell (172.16.17.213)
+
+**Hypothesis:** A malicious external threat actor sucessfully gained access to the user Campbells (172.16.17.213) endpoint by use of RDP brute-force attacks, the malicious actor then used system discovery commands after logging into the device. 
+
+**Evidence:**
+
+* Multiple failed RDP login attempts originated from the external IP 37.19.221.238 against Campbell (172.16.17.213) on port 3389.
+* The failed login attempts targeted multiple usernames, including test, guest, root, and LetsDefend.
+* A successful RDP logon (Event ID 4624, Logon Type 10) occurred from 37.19.221.238 after the failed login attempts.
+* Shortly after the successful RDP login, `cmd.exe` was created on the affected endpoint.
+* The parent process of `cmd.exe` was `explorer.exe`, which is consistent with command prompt activity from an interactive Windows session.
+* Event ID 4688 logs showed `cmd.exe` launching `HOSTNAME.EXE` with the `hostname` command.
+* Event ID 4688 logs also showed `cmd.exe` launching `net.exe` using the command `net time \\EC2AMAZ-ILGVOIN`.
+* The `net time` command was used to query system time information, indicating System Time Discovery activity.
+* The alert trigger reason identified a possible System Time Discovery attempt.
+* Post-login discovery activity occurred shortly after the successful RDP authentication, supporting that the brute-force attack resulted in unauthorized access.
+
+**Classification:** True Positive - Malicious
+
+**Action Taken:** Recommended isolating Campbell, blocking the source IP 37.19.221.238, resetting the affected user credentials, reviewing the endpoint for additional post-compromise activity, and escalating the incident for further investigation.
+
+**Time to Triage:** [Enter your actual time]
