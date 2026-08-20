@@ -179,8 +179,8 @@
 
 **Evidence:**
 
-* Multiple POST requests were made to `/accounts/login` from the external IP 134.209.145.73.
-* The repeated access attempts targeted the user `test@letsdefend.io`.
+* Multiple POST requests were made to /accounts/login from the external IP 134.209.145.73.
+* The repeated access attempts targeted the user test@letsdefend.io.
 * Firewall logs showed the incoming connections were blocked.
 * Proxy logs returned HTTP 403 responses, indicating that the requests were denied.
 * No successful HTTP 200 response or Allowed action was observed from the source IP.
@@ -196,3 +196,33 @@
 **Action Taken:** The target system did not require isolation because all observed requests were blocked by the firewall and proxy and no successful access was identified. Recommended blocking and monitoring the malicious source IP, continuing to monitor the affected account for additional login attempts, and reviewing cloud-region access restrictions for similar activity.
 
 **Time to Triage:** 8 Minutes
+
+## Alert #8
+
+**Date:** 2024-10-11
+**Alert Title:** SOC331 - Zebrocy Malware Activity Detected (APT28)
+**Severity:** High
+**Source:** [pavlodar.news@bk.ru](mailto:pavlodar.news@bk.ru)
+**Target:** Montague (172.16.17.132)
+
+**Hypothesis:** A malicious executable delivered through a phishing email was opened by the user and executed on the Montague endpoint, resulting in Zebrocy malware activity and system discovery.
+
+**Evidence:**
+
+* The alert was triggered by execution of 2024 Financial Report.exe.
+* The executable was launched from C:\Users\LetsDefend\Downloads\2024-financial-report\2024 Financial Report.exe.
+* The alert trigger reason stated that the file hash was associated with known Zebrocy malware.
+* The L1 note indicated that the application may have been delivered through email from pavlodar.news@bk.ru.
+* 2024 Financial Report.exe was launched by explorer.exe, indicating user execution.
+* The malicious executable spawned cmd.exe.
+* cmd.exe executed the SYSTEMINFO command, indicating System Information Discovery.
+* cmd.exe executed the TASKLIST command, indicating Process Discovery.
+* Network activity was observed on Montague around the same time as the malicious executable was running.
+* The initial access method was consistent with phishing.
+
+**Classification:** True Positive - Malicious
+
+**Action Taken:** Recommended isolating Montague, removing 2024 Financial Report.exe and any related malicious artifacts, blocking the associated sender and indicators, reviewing the endpoint for additional persistence or command-and-control activity, and escalating the incident for further investigation.
+
+**Time to Triage:** 14 Minutes
+
