@@ -22,11 +22,18 @@
 * The failed attempts targeted multiple usernames, including admin and LetsDefend.
 * A successful RDP logon (Event ID 4624, Logon Type 10) occurred shortly after the failed attempts from the same source IP.
 
+**Analysis:**
+
+* The trigger reason states that EDR-Freeze executed after suspicious PowerShell activity.
+* The network activity occurred during the same time-frame as the repeated PowerShell command executions, including connections to mulitple external IP addresses.
+* A successful RDP logon (Event ID 4624, Logon Type 10) occurred shortly after the failed attempts from the same source IP.
+
 **Classification:** True Positive - Malicious
 
 **Action Taken:** Recommended isolating the WS-Prod-02 endpoint, blocking the source IP 212.8.243.56, resetting the affected user credentials, and escalating the incident for further investigation.
 
 **Time to Triage:** 34 minutes
+
 
 ---
 
@@ -45,10 +52,13 @@
 * A suspisious email with a CV attachment was delivered to [stewart@letsdefend.io](mailto:stewart@letsdefend.io) and was allowed by the email security system.
 * The L1 note stated that the suspicious file creation had occured in Temp and Startup locations after the user executed the email attachment.
 * WinRar.exe was used to extract the archive associated with the suspicious attachment.
-* The alert indicated that archive extraction placed files in the Startup and Temp directories, which is consistent with the exploitation of CVE-2025-8088.
 * The msedge.dll was created in C:\Users\LetsDefend\AppData\Local\Temp.
 * The action was Allowed, which indicates that the suspiscious activity was not blocked.
 * The malicious msedge.dll artifact was located on the endpoint during the eradication phase.
+
+**Analysis:**
+
+* The alert indicated that archive extraction placed files in the Startup and Temp directories, which is consistent with the exploitation of CVE-2025-8088.
 * Successful Phishing Attack - Phishing email from an external sender.
 
 **Classification:** True Positive - Malicious
@@ -73,9 +83,12 @@
 
 * An unauthenticated HTTPS POST request was sent from the external IP 107.191.58.76 to SharePoint01 (172.16.20.17) on port 443.
 * The request targeted The request targeted '/_layouts/15/ToolPane.aspx' which is the SharePoint application page/path.
-* The HTTP response code was 200 which indicates that the request was succesfully processed.
 * cmd.exe executed commands that referenced a external payload from the IP 107.191.58.76.
 * The same external IP appeared in both the SharePoint request and subsequent payload-related activity.
+
+**Analysis:**
+
+* The HTTP response code was 200 which indicates that the request was succesfully processed.
 
 **Classification:** True Positive - Malicious
 
@@ -103,13 +116,18 @@
 * The malware was downloaded from a infected installer https://files-ld.s3.us-east-2.amazonaws.com/service-installer.zip.
 * Log analysis confirmed that the malware-hosting/C2 infrastructure was accessed and the malicious archive was downloaded.
 * The malware was successfully executed on the endpoint.
+
+**Analysis:**
+
 * No evidence was found that the activity was benign or part of an authorized test.
 
 **Classification:** True Positive - Malicious
 
-**Action Taken:** Isolating Victor immedietly was the first step, and then removing the malicious "service-installer" file. We then would need to block all access from the malicious source IP, and escalate this incident for further investigation if the issue persists. 
+**Action Taken:** Isolating Victor immedietly was the first step, and then removing the malicious "service-installer" file. We then would need to block all access from the malicious source IP, and escalate this incident for further investigation if the issue persists.
 
 **Time to Triage:** 24 Minutes
+
+---
 
 ## Alert #5
 
@@ -119,20 +137,23 @@
 **Source IP:** 37.19.221.238
 **Target:** Campbell (172.16.17.213)
 
-**Hypothesis:** A malicious external threat actor sucessfully gained access to the user Campbells (172.16.17.213) endpoint by use of RDP brute-force attacks, the malicious actor then used system discovery commands after logging into the device. 
+**Hypothesis:** A malicious external threat actor sucessfully gained access to the user Campbells (172.16.17.213) endpoint by use of RDP brute-force attacks, the malicious actor then used system discovery commands after logging into the device.
 
 **Evidence:**
 
-- Multiple failed RDP login attempts that came from the external IP 37.19.221.238 against user Campbell (172.16.17.213) on port 3389.
-- The failed login attempts were targeted towards multiple usernames, including test, guest, root, and LetsDefend.
-- A successful RDP logon (Event ID 4624, Logon Type 10) occurred after the failed login attempts.
-- After the successful RDP login, cmd.exe was created on the affected endpoint.
-- Event ID 4688 logs showed cmd.exe launching HOSTNAME.EXE with the hostname command.
-- Event ID 4688 logs also showed cmd.exe launching net.exe using the command net time \\EC2AMAZ-ILGVOIN.
-- The net time command was used to query system information, such as time, indicating a System Time Discovery activity.
-- The initial alert trigger was identified as a possible System Time Discovery attempt.
-- Post-login discovery activity occurred shortly after the successful RDP authentication, this supports that the brute-force attack resulted in unauthorized access to Campbells endpoint.
-- The source IP 37.19.221.238 was flagged by external malware analysis tools as malicious. 
+* Multiple failed RDP login attempts that came from the external IP 37.19.221.238 against user Campbell (172.16.17.213) on port 3389.
+* The failed login attempts were targeted towards multiple usernames, including test, guest, root, and LetsDefend.
+* A successful RDP logon (Event ID 4624, Logon Type 10) occurred after the failed login attempts.
+* After the successful RDP login, cmd.exe was created on the affected endpoint.
+* Event ID 4688 logs showed cmd.exe launching HOSTNAME.EXE with the hostname command.
+* Event ID 4688 logs also showed cmd.exe launching net.exe using the command net time \EC2AMAZ-ILGVOIN.
+* The source IP 37.19.221.238 was flagged by external malware analysis tools as malicious.
+
+**Analysis:**
+
+* The net time command was used to query system information, such as time, indicating a System Time Discovery activity.
+* The initial alert trigger was identified as a possible System Time Discovery attempt.
+* Post-login discovery activity occurred shortly after the successful RDP authentication, this supports that the brute-force attack resulted in unauthorized access to Campbells endpoint.
 
 **Classification:** True Positive - Malicious
 
@@ -140,32 +161,39 @@
 
 **Time to Triage:** 14 Minutes
 
+---
+
 ## Alert #6
 
 **Date:** 2025-03-06
 **Alert Title:** SOC337 - Lazarus Phishing Campaign Detected (APT38)
 **Severity:** High
-**Source:** trevorgreer9312@gmail.com
-**Target:** Ellen@letsdefend.io
+**Source:** [trevorgreer9312@gmail.com](mailto:trevorgreer9312@gmail.com)
+**Target:** [Ellen@letsdefend.io](mailto:Ellen@letsdefend.io)
 
 **Hypothesis:** A malicious phishing email impersonating a Coinbase hiring assessment was sent to Ellen in an attempt to convince the user to interact with malicious content.
 
 **Evidence:**
 
-* A suspicious email was sent from trevorgreer9312@gmail.com to Ellen@letsdefend.io. 
+* A suspicious email was sent from [trevorgreer9312@gmail.com](mailto:trevorgreer9312@gmail.com) to [Ellen@letsdefend.io](mailto:Ellen@letsdefend.io).
 * The email subject was "Invitation: Coinbase Crypto Trader Hiring Assessment."
-* The email impersonated a Coinbase hiring assessment and attempted to convince the recipient to continue with the assessment.
 * The sender used a Gmail address instead of an official Coinbase email domain.
 * The email security action was Allowed, meaning the message was delivered to the recipient.
 * The alert was identified as part of a Lazarus phishing campaign associated with APT38.
-* The email contained content designed to appear like a legitimate cryptocurrency job opportunity.
 * The email download/header analysis function returned an AccessDenied error, so the email headers could not be fully verified from the downloaded EML file.
+
+**Analysis:**
+
+* The email impersonated a Coinbase hiring assessment and attempted to convince the recipient to continue with the assessment.
+* The email contained content designed to appear like a legitimate cryptocurrency job opportunity.
 
 **Classification:** True Positive - Malicious
 
 **Action Taken:** Recommended removing the phishing email from the recipient's mailbox, blocking the sender and any associated malicious indicators, determining whether Ellen interacted with the email content, and investigating the affected endpoint for any follow-on activity.
 
 **Time to Triage:** 11 Minutes
+
+---
 
 ## Alert #7
 
@@ -180,16 +208,19 @@
 **Evidence:**
 
 * Multiple POST requests were made to /accounts/login from the external IP 134.209.145.73.
-* The repeated access attempts targeted the user test@letsdefend.io.
+* The repeated access attempts targeted the user [test@letsdefend.io](mailto:test@letsdefend.io).
 * Firewall logs showed the incoming connections were blocked.
-* Proxy logs returned HTTP 403 responses, indicating that the requests were denied.
 * No successful HTTP 200 response or Allowed action was observed from the source IP.
 * The source IP was reported by VirusTotal and AbuseIPDB in categories including malicious activity, brute force, SSH, and phishing.
-* The source IP was identified as being located in India, which was configured as an unused or unsupported cloud region.
-* The activity matched the Unused/Unsupported Cloud Regions defense evasion technique.
 * Log Management showed that only 52.15.206.21 was targeted by the attacker IP, with no evidence that additional systems were affected.
 * Endpoint Security identified the target system as Ubuntu 20.04.02.
 * The device action was Blocked, and all observed access attempts failed.
+
+**Analysis:**
+
+* Proxy logs returned HTTP 403 responses, indicating that the requests were denied.
+* The source IP was identified as being located in India, which was configured as an unused or unsupported cloud region.
+* The activity matched the Unused/Unsupported Cloud Regions defense evasion technique.
 
 **Classification:** True Positive - Malicious
 
@@ -197,11 +228,13 @@
 
 **Time to Triage:** 8 Minutes
 
+---
+
 ## Alert #8
 
 **Date:** 2024-10-11
 **Alert Title:** SOC331 - Zebrocy Malware Activity Detected (APT28)
-**Severity:** High
+**Severity:** Medium
 **Source:** [pavlodar.news@bk.ru](mailto:pavlodar.news@bk.ru)
 **Target:** Montague (172.16.17.132)
 
@@ -209,15 +242,19 @@
 
 **Evidence:**
 
+* The file hash has been flagged by third party malware analysis software as malicious
 * The alert was triggered by execution of 2024 Financial Report.exe.
 * The executable was launched from C:\Users\LetsDefend\Downloads\2024-financial-report\2024 Financial Report.exe.
 * The alert trigger reason stated that the file hash was associated with known Zebrocy malware.
-* The L1 note indicated that the application may have been delivered through email from pavlodar.news@bk.ru.
+* The L1 note indicated that the application may have been delivered through email from [pavlodar.news@bk.ru](mailto:pavlodar.news@bk.ru).
+* Network activity was observed on Montague around the same time as the malicious executable was running.
+
+**Analysis:**
+
 * 2024 Financial Report.exe was launched by explorer.exe, indicating user execution.
 * The malicious executable spawned cmd.exe.
 * cmd.exe executed the SYSTEMINFO command, indicating System Information Discovery.
 * cmd.exe executed the TASKLIST command, indicating Process Discovery.
-* Network activity was observed on Montague around the same time as the malicious executable was running.
 * The initial access method was consistent with phishing.
 
 **Classification:** True Positive - Malicious
@@ -226,3 +263,39 @@
 
 **Time to Triage:** 14 Minutes
 
+---
+
+## Alert #9
+
+**Date:** 2025-02-04
+**Alert Title:** SOC336 - Windows OLE Zero-Click RCE Exploitation Detected (CVE-2025-21298)
+**Severity:** Critical
+**Source:** [projectmanagement@pm.me](mailto:projectmanagement@pm.me)
+**Target:** [Austin@letsdefend.io](mailto:Austin@letsdefend.io) / 172.16.17.137
+
+**Hypothesis:** A malicious RTF attachment was delivered through email and exploited CVE-2025-21298, resulting in remote code execution and follow-on malicious activity on the affected endpoint.
+
+**Evidence:**
+
+* A phishing email was sent from `projectmanagement@pm.me` to `Austin@letsdefend.io`.
+* The email subject was `Important: Action Required for Upcoming Project Deadline`.
+* The email contained a password-protected RTF attachment named `mail.rtf`.
+* The email security action was Allowed.
+* The alert trigger identified the RTF attachment as matching a known CVE-2025-21298 exploit pattern.
+* The attachment SHA256 hash df993d037cdb77a435d6993a37e7750dbbb16b2df64916499845b56aa9194184 was flagged as a malicious trojan by external malware analysis software.
+* Endpoint telemetry showed OUTLOOK.EXE spawning cmd.exe.
+* cmd.exe then spawned regsvr32.exe.
+* regsvr32.exe was associated with a command referencing the remote shell.sct resource.
+* Proxy logs showed the affected endpoint 172.16.17.137 making an HTTP GET request to 84.38.130.118 on port 80.
+* The request targeted http://84.38.130.118.com/shell.sct.
+
+**Analysis:**
+
+* The proxy action was Permitted, confirming that the malicious remote address was accessed.
+* The malicious activity continued after email delivery, indicating the attachment was not successfully quarantined or cleaned before execution.
+
+**Classification:** True Positive - Malicious
+
+**Action Taken:** Recommended isolating the affected endpoint, removing the malicious RTF and related artifacts, blocking the malicious remote infrastructure at `84.38.130.118`, reviewing the host for additional persistence or payloads, and escalating the incident for further investigation.
+
+**Time to Triage:** 23 Minutes
