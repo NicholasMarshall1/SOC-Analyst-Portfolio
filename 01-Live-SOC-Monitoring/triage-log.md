@@ -15,8 +15,8 @@
 * The device action was Allowed.
 * The trigger reason states that EDR-Freeze executed after suspicious PowerShell activity.
 * EDR-Freeze_1.0.exe spawned WerFaultSecure.exe.
-* Terminal history shows repeated PowerShell executions between approximately 13:01 and 13:03 on WS-Prod-02.
-* Network activity occurred during the same time frame as the repeated PowerShell executions, including connections to several external IP addresses.
+* The terminal history had shown repeated PowerShell command executions between approximately 13:01 and 13:03 on the WS-Prod-02 endpoint.
+* The network activity occurred during the same time-frame as the repeated PowerShell command executions, including connections to mulitple external IP addresses.
 * LetsDefend Threat Intel returned no results for the observed external IP addresses or the EDR-Freeze SHA256 hash.
 * Multiple failed RDP login attempts originated from 212.8.243.56 against WS-Prod-02.
 * The failed attempts targeted multiple usernames, including admin and LetsDefend.
@@ -24,7 +24,7 @@
 
 **Classification:** True Positive - Malicious
 
-**Action Taken:** Recommended isolating WS-Prod-02, blocking the source IP 212.8.243.56, resetting the affected user credentials, and escalating the incident for further investigation.
+**Action Taken:** Recommended isolating the WS-Prod-02 endpoint, blocking the source IP 212.8.243.56, resetting the affected user credentials, and escalating the incident for further investigation.
 
 **Time to Triage:** 34 minutes
 
@@ -136,6 +136,63 @@
 
 **Classification:** True Positive - Malicious
 
-**Action Taken:** Isolated Campbells endpoint, blocking the source IP 37.19.221.238, resetting the affected user credentials, reviewing the endpoint for additional post-compromise activity, and escalating the incident for further investigation.
+**Action Taken:** Isolated Campbells endpoint, blocking the source IP 37.19.221.238, resetting the affected user credentials, reviewing the endpoint for additional activity, if more is found then we need to escalate this for further investigation.
 
 **Time to Triage:** 14 Minutes
+
+## Alert #6
+
+**Date:** 2025-03-06
+**Alert Title:** SOC337 - Lazarus Phishing Campaign Detected (APT38)
+**Severity:** High
+**Source:** trevorgreer9312@gmail.com
+**Target:** Ellen@letsdefend.io
+
+**Hypothesis:** A malicious phishing email impersonating a Coinbase hiring assessment was sent to Ellen in an attempt to convince the user to interact with malicious content.
+
+**Evidence:**
+
+* A suspicious email was sent from trevorgreer9312@gmail.com to Ellen@letsdefend.io. 
+* The email subject was "Invitation: Coinbase Crypto Trader Hiring Assessment."
+* The email impersonated a Coinbase hiring assessment and attempted to convince the recipient to continue with the assessment.
+* The sender used a Gmail address instead of an official Coinbase email domain.
+* The email security action was Allowed, meaning the message was delivered to the recipient.
+* The alert was identified as part of a Lazarus phishing campaign associated with APT38.
+* The email contained content designed to appear like a legitimate cryptocurrency job opportunity.
+* The email download/header analysis function returned an AccessDenied error, so the email headers could not be fully verified from the downloaded EML file.
+
+**Classification:** True Positive - Malicious
+
+**Action Taken:** Recommended removing the phishing email from the recipient's mailbox, blocking the sender and any associated malicious indicators, determining whether Ellen interacted with the email content, and investigating the affected endpoint for any follow-on activity.
+
+**Time to Triage:** 11 Minutes
+
+## Alert #7
+
+**Date:** 2024-09-24
+**Alert Title:** SOC325 - Unauthorized Cloud Region Access Attempt Detected
+**Severity:** Low
+**Source IP:** 134.209.145.73
+**Target:** 52.15.206.21 / [test@letsdefend.io](mailto:test@letsdefend.io)
+
+**Hypothesis:** A malicious external actor attempted repeated unauthorized access against the target account from a restricted or unsupported cloud region.
+
+**Evidence:**
+
+* Multiple POST requests were made to `/accounts/login` from the external IP 134.209.145.73.
+* The repeated access attempts targeted the user `test@letsdefend.io`.
+* Firewall logs showed the incoming connections were blocked.
+* Proxy logs returned HTTP 403 responses, indicating that the requests were denied.
+* No successful HTTP 200 response or Allowed action was observed from the source IP.
+* The source IP was reported by VirusTotal and AbuseIPDB in categories including malicious activity, brute force, SSH, and phishing.
+* The source IP was identified as being located in India, which was configured as an unused or unsupported cloud region.
+* The activity matched the Unused/Unsupported Cloud Regions defense evasion technique.
+* Log Management showed that only 52.15.206.21 was targeted by the attacker IP, with no evidence that additional systems were affected.
+* Endpoint Security identified the target system as Ubuntu 20.04.02.
+* The device action was Blocked, and all observed access attempts failed.
+
+**Classification:** True Positive - Malicious
+
+**Action Taken:** The target system did not require isolation because all observed requests were blocked by the firewall and proxy and no successful access was identified. Recommended blocking and monitoring the malicious source IP, continuing to monitor the affected account for additional login attempts, and reviewing cloud-region access restrictions for similar activity.
+
+**Time to Triage:** 8 Minutes
