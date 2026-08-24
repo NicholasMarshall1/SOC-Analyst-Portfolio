@@ -296,6 +296,49 @@
 
 **Classification:** True Positive - Malicious
 
-**Action Taken:** Recommended isolating the affected endpoint, removing the malicious RTF and related artifacts, blocking the malicious remote infrastructure at `84.38.130.118`, reviewing the host for additional persistence or payloads, and escalating the incident for further investigation.
+**Action Taken:** Recommended isolating the affected endpoint, deleting the email from the users inbox, removing the malicious RTF and related artifacts, blocking the malicious remote infrastructure at 84.38.130.118, reviewing the host for additional persistence or payloads, and escalating the incident for further investigation.
 
 **Time to Triage:** 23 Minutes
+
+## Alert #10
+
+**Date:** 2025-03-13  
+**Alert Title:** SOC338 - Lumma Stealer - DLL Side-Loading via Click Fix Phishing  
+**Severity:** Critical  
+**Source:** update@windows-update.site  
+**SMTP Address:** 132.232.40.201  
+**Target:** dylan@letsdefend.io / 172.16.17.216  
+
+**Hypothesis:** A phishing email redirected Dylan to a malicious website containing a ClickFix script that led to PowerShell and mshta.exe execution.
+
+**Evidence:**
+
+* The suspicious email with multiple attachments and links was sent on 2025-03-13 at 02:44:00.
+* The SMTP sender IP was 132.232.40.201.
+* The sender address was update@windows-update.site.
+* The recipient address was dylan@letsdefend.io.
+* The email subject was "Upgrade your system to Windows 11 Pro for FREE".
+* The email security action was Allowed.
+* The email contained attachments.
+* The alert trigger stated that the redirected site contained a ClickFix type script for Lumma Stealer distribution.
+* The URL https://windows-update[.]site/ was scanned with third-party analysis software and was flagged as malicious.
+* Proxy logs showed 172.16.17.216 connecting to https://windows-update.site/ over port 443.
+* The request to https://windows-update.site/ returned HTTP Status 200 OK.
+* Browser History on the affected endpoint showed a visit to https://windows-update.site/ at 23:26:08
+* One PowerShell command invoked mshta.exe with a URL hosted on overcoatpassably.shop
+
+**Analysis:**
+
+* The email characteristics, malicious URL verdict, browser activity, PowerShell execution, and mshta.exe activity support that the ClickFix execution chain progressed beyond the original phishing email.
+* The endpoint activity shows a process chain of explorer.exe → powershell.exe → powershell.exe → mshta.exe.
+* The investigation confirmed that the suspicious website was opened and that commands associated with the ClickFix activity were executed.
+* No separate Lumma Stealer executable or DLL was directly identified during the investigation, so the evidence does not independently prove that a specific Lumma payload executed.
+
+**Classification:** True Positive - Malicious  
+
+**Actions Taken:** 
+* The phishing email was deleted from the users inbox.
+* The affected environment was contained pending further investigation.
+* Additional investigation was required to determine whether the device was fully secure before containment could be lifted.
+
+**Time to Triage:** 16 Minutes
