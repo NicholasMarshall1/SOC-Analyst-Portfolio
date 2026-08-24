@@ -168,15 +168,15 @@
 **Date:** 2025-03-06
 **Alert Title:** SOC337 - Lazarus Phishing Campaign Detected (APT38)
 **Severity:** High
-**Source:** [trevorgreer9312@gmail.com](mailto:trevorgreer9312@gmail.com)
-**Target:** [Ellen@letsdefend.io](mailto:Ellen@letsdefend.io)
+**Source:** trevorgreer9312@gmail.com
+**Target:** Ellen@letsdefend.io
 
 **Hypothesis:** A malicious phishing email impersonating a Coinbase hiring assessment was sent to Ellen in an attempt to convince the user to interact with malicious content.
 
 **Evidence:**
 
-* A suspicious email was sent from [trevorgreer9312@gmail.com](mailto:trevorgreer9312@gmail.com) to [Ellen@letsdefend.io](mailto:Ellen@letsdefend.io).
-* The email subject was "Invitation: Coinbase Crypto Trader Hiring Assessment."
+* A suspicious email was sent from trevorgreer9312@gmail.com to the user Ellen@letsdefend.io. 
+* The suspicious email subject was "Invitation: Coinbase Crypto Trader Hiring Assessment", and also had multiple suspicious attachments and links. 
 * The sender used a Gmail address instead of an official Coinbase email domain.
 * The email security action was Allowed, meaning the message was delivered to the recipient.
 * The alert was identified as part of a Lazarus phishing campaign associated with APT38.
@@ -184,12 +184,12 @@
 
 **Analysis:**
 
-* The email impersonated a Coinbase hiring assessment and attempted to convince the recipient to continue with the assessment.
+* The email was an impersonation of a Coinbase hiring assessment and attempted to convince the recipient to continue with the assessment.
 * The email contained content designed to appear like a legitimate cryptocurrency job opportunity.
 
 **Classification:** True Positive - Malicious
 
-**Action Taken:** Recommended removing the phishing email from the recipient's mailbox, blocking the sender and any associated malicious indicators, determining whether Ellen interacted with the email content, and investigating the affected endpoint for any follow-on activity.
+**Action Taken:** We removed the phishing email from the recipient's mailbox, blocked the sender and any other associated malicious indicators, determined whether Ellen interacted with the email content, and investigated the affected endpoint for any follow-on activity.
 
 **Time to Triage:** 11 Minutes
 
@@ -201,14 +201,14 @@
 **Alert Title:** SOC325 - Unauthorized Cloud Region Access Attempt Detected
 **Severity:** Low
 **Source IP:** 134.209.145.73
-**Target:** 52.15.206.21 / [test@letsdefend.io](mailto:test@letsdefend.io)
+**Target:** 52.15.206.21 / test@letsdefend.io
 
-**Hypothesis:** A malicious external actor attempted repeated unauthorized access against the target account from a restricted or unsupported cloud region.
+**Hypothesis:** A malicious external actor attempted to gain unauthorized access to the target account from a restricted or unsupported cloud region.
 
 **Evidence:**
 
 * Multiple POST requests were made to /accounts/login from the external IP 134.209.145.73.
-* The repeated access attempts targeted the user [test@letsdefend.io](mailto:test@letsdefend.io).
+* The repeated access attempts targeted the user test@letsdefend.io
 * Firewall logs showed the incoming connections were blocked.
 * No successful HTTP 200 response or Allowed action was observed from the source IP.
 * The source IP was reported by VirusTotal and AbuseIPDB in categories including malicious activity, brute force, SSH, and phishing.
