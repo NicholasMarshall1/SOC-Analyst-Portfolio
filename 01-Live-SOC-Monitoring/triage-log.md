@@ -430,3 +430,42 @@
 * The phishing email was deleted.
 
 **Time to Triage:** 16 Minutes
+
+## Alert #13
+
+**Date:** 2024-10-21  
+**Alert Title:** SOC333 - Denis Malware Activity Detected (APT32)  
+**Severity:** High  
+**Source:** support@appofficedrive.com  
+**Target:** brendan@letsdefend.io / 172.16.17.135  
+
+**Hypothesis:** A suspicious phishing email delivered malicious content to Brendan, which resulted in the execution of `denis.exe` on the endpoint.
+
+**Evidence:**
+
+* A suspicious phishing email was sent from `support@appofficedrive.com` to `brendan@letsdefend.io`.
+* The sender IP was `194.14.208.16`.
+* The email security action was Allowed.
+* Brendan's endpoint IP address was `172.16.17.135`.
+* The hash `12C2C3566C29F80478277E0F96B79FC85B9E86EBF16505D8F2D7877A6204F860` was flagged as malicious by third-party analysis and identified as a trojan.
+* Terminal history showed `C:\Users\LetsDefend\Downloads\denis\denis.exe` being executed on the endpoint.
+* No evidence of the malicious IOC appearing on any other endpoint was observed.
+* DNS-related activity was observed from Brendan's endpoint during the investigation.
+* The playbook confirmed that the C2 was not accessed.
+
+**Analysis:**
+
+* The suspicious email and later execution of `denis.exe` support phishing as the likely initial access method.
+* The execution of `denis.exe` confirms that the malicious file was run on Brendan's endpoint.
+* The investigation did not identify the same malicious IOC on additional endpoints.
+* DNS activity was observed, but successful C2 communication was not confirmed.
+
+**Classification:** True Positive - Malicious  
+
+**Actions Taken:**
+
+* The infected files were deleted.
+* The affected endpoint was quarantined.
+* The incident was escalated for further investigation.
+
+**Time to Triage:** 20 Minutes
