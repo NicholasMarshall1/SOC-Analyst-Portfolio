@@ -230,7 +230,7 @@
 
 ---
 
-## Alert #8
+## Alert #8 - Edit
 
 **Date:** 2024-10-11
 **Alert Title:** SOC331 - Zebrocy Malware Activity Detected (APT28)
@@ -265,7 +265,7 @@
 
 ---
 
-## Alert #9
+## Alert #9 - Edit
 
 **Date:** 2025-02-04
 **Alert Title:** SOC336 - Windows OLE Zero-Click RCE Exploitation Detected (CVE-2025-21298)
@@ -300,13 +300,12 @@
 
 **Time to Triage:** 23 Minutes
 
-## Alert #10
+## Alert #10 - Edit
 
 **Date:** 2025-03-13  
 **Alert Title:** SOC338 - Lumma Stealer - DLL Side-Loading via Click Fix Phishing  
 **Severity:** Critical  
-**Source:** update@windows-update.site  
-**SMTP Address:** 132.232.40.201  
+**Source:** update@windows-update.site   
 **Target:** dylan@letsdefend.io / 172.16.17.216  
 
 **Hypothesis:** A phishing email redirected Dylan to a malicious website containing a ClickFix script that led to PowerShell and mshta.exe execution.
@@ -340,5 +339,94 @@
 * The phishing email was deleted from the users inbox.
 * The affected environment was contained pending further investigation.
 * Additional investigation was required to determine whether the device was fully secure before containment could be lifted.
+
+**Time to Triage:** 16 Minutes
+
+## Alert #11 - Edit
+
+**Date:** 2024-10-15  
+**Alert Title:** SOC332 - CosmicDuke Malware Activity Detected (APT29)  
+**Severity:** Medium  
+**Source:** dawid.tomaszewski@resetlocations.com  
+**Target:** ricky@letsdefend.io / 172.16.17.133  
+
+**Hypothesis:** A phishing email delivered a malicious Chrome update archive to Ricky, which was extracted and executed on the endpoint.
+
+**Evidence:**
+
+* The alert was triggered by Chrome_updates.exe.
+* The alert stated that the hash was associated with CosmicDuke malware.
+* The SHA256 hash b5c571cbe24b37359eb4018bac19e37a2ffc6108d6d1cb5c8c22640397c47596 was flagged as malicious by third-party analysis.
+* An email was sent from dawid.tomaszewski@resetlocations.com to ricky@letsdefend.io.
+* The email subject was "Urgent: Chrome Security Update - Action Required".
+* The email security action was Allowed.
+* The email contained the attachment chrome-updates.zip.
+* The email instructed the recipient to download and run the attached Chrome update.
+* The extracted chrome-updates folder was present in Ricky's Downloads directory.
+* The Chrome_updates` application was present inside the extracted folder.
+* Log Management showed a file creation event for Chrome_updates.exe.
+* Log Management showed an Event ID 1 Process Create event for Chrome_updates.exe.
+* Searches for the sender email and sender IP only showed activity associated with Ricky.
+* No evidence of the malicious IOC appearing on more than one endpoint was observed.
+* The malicious executable was still present on Ricky's computer during the investigation.
+* No evidence of the file being quarantined or cleaned was observed.
+* The playbook showed that Chrome_updates.exe attempted C2-related activity but crashed before successful communication occurred.
+
+**Analysis:**
+
+* The suspicious email, attached archive, extracted executable, and process creation event support phishing as the initial access method.
+* The Process Create event confirms that Chrome_updates.exe was executed on Ricky's endpoint.
+* The investigation only identified the malicious activity on Ricky's endpoint.
+* The malware attempted C2-related activity, but successful C2 communication was not confirmed because the application crashed before communication was completed.
+
+**Classification:** True Positive - Malicious  
+
+**Actions Taken:**
+
+* The affected host was contained.
+* The malicious Chrome_updates.exe file was deleted from the affected hosts endpoint.
+
+**Time to Triage:** 18 Minutes
+
+## Alert #12 - Edit 
+
+**Date:** 2025-03-20  
+**Alert Title:** SOC339 - ZDI-CAN-25373 Windows Shortcut Exploit Detected  
+**Severity:** High  
+**Source:** michael.johnson@pm.me  
+**Target:** Cooper@letsdefend.io / 172.16.17.217  
+
+**Hypothesis:** A phishing email delivered a malicious shortcut file to Cooper, which was opened and triggered PowerShell activity that connected to an external IP address.
+
+**Evidence:**
+
+* The hash 6F927D74FB2075C60F2F7795B718CA571947F3D1E7B591D2D2FD5A35DD5503F8 was flagged as malicious by third-party analysis and identified as a Trojan.PowerShell / Trojan downloader.
+* A suspicious email was sent from Michael.johnson@pm.me to Cooper@letsdefend.io.
+* The malicious files 2025annualreport.7z and 2025AnnualReport were present in the Downloads directory on Cooper's device.
+* The malware had not been cleaned or quarantined because the malicious files were still present on the device.
+* The malicious shortcut activity triggered powershell.exe.
+* PowerShell executed a command that referenced http://18.223.186.129:4444/MBS.ps1.
+* Sysmon Event ID 3 showed powershell.exe on 172.16.17.217 making a TCP connection to 18.223.186.129 on port 4444.
+* The destination IP was 18.223.186.129.
+* The destination port was 4444.
+* The protocol was TCP.
+* The process responsible for the connection was powershell.exe.
+* The UserHostIp was 172.16.17.217.
+
+**Analysis:**
+
+* The suspicious email and malicious files found in Cooper's Downloads directory support phishing as the initial access method.
+* The execution of PowerShell after the malicious shortcut was opened supports both User Execution and Command and Scripting Interpreter activity.
+* The PowerShell command attempted to retrieve and execute a remote PowerShell script from 18.223.186.129:4444.
+* The Sysmon Event ID 3 network event confirms that Cooper's endpoint made a TCP connection to the external address used by the malicious PowerShell command.
+* The evidence supports that the malicious activity progressed beyond the initial phishing email and resulted in execution and external network communication.
+
+**Classification:** True Positive - Malicious  
+
+**Actions Taken:**
+
+* The affected endpoint was isolated.
+* The malware was eradicated from the device.
+* The phishing email was deleted.
 
 **Time to Triage:** 16 Minutes
